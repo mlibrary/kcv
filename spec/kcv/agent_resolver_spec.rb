@@ -5,7 +5,7 @@ require "checkpoint/agent"
 
 RSpec.describe KCV::AgentResolver do
   subject(:agent_resolver) do
-    described_class.new()
+    described_class.new
   end
 
   def fake_attrs(attrs)
@@ -22,7 +22,7 @@ RSpec.describe KCV::AgentResolver do
 
     context "with some attributes" do
       subject(:agent_resolver) do
-        described_class.new()
+        described_class.new
       end
 
       let(:attrs) { fake_attrs("foo" => "bar") }
@@ -45,11 +45,11 @@ RSpec.describe KCV::AgentResolver do
     end
 
     context "with a multi-value attribute" do
-      let(:attrs) { fake_attrs("foo" => ['bar', 'baz']) }
+      let(:attrs) { fake_attrs("foo" => %w[bar baz]) }
       let(:agents) do
-        [ base_agent,
-          agent_from(type: 'foo', id: 'bar'),
-          agent_from(type: 'foo', id: 'baz') ]
+        [base_agent,
+         agent_from(type: 'foo', id: 'bar'),
+         agent_from(type: 'foo', id: 'baz')]
       end
 
       it "returns two agents" do
