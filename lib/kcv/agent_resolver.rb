@@ -15,7 +15,7 @@ module KCV
     end
 
     def resolve(actor)
-      super + actor.identity.all.map { |k, v| agents_for(k, v) }.flatten
+      super + actor.identity.map { |k, v| agents_for(k, v) }.flatten
     end
 
     def agents_for(attribute, values)

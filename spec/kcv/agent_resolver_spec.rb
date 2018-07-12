@@ -25,7 +25,7 @@ RSpec.describe KCV::AgentResolver do
         described_class.new
       end
 
-      let(:attrs) { fake_attrs("foo" => "bar") }
+      let(:attrs) { {"foo" => "bar"} }
       let(:agent) { agent_from(type: "foo", id: "bar") }
 
       it "turns the attributes into agents" do
@@ -35,7 +35,7 @@ RSpec.describe KCV::AgentResolver do
     end
 
     context "with some different attributes" do
-      let(:attrs) { fake_attrs("baz" => "quux") }
+      let(:attrs) { {"baz" => "quux"} }
       let(:agent) { agent_from(type: 'baz', id: 'quux') }
 
       it "turns the attributes into agents" do
@@ -45,7 +45,7 @@ RSpec.describe KCV::AgentResolver do
     end
 
     context "with a multi-value attribute" do
-      let(:attrs) { fake_attrs("foo" => %w[bar baz]) }
+      let(:attrs) { {"foo" => %w[bar baz]} }
       let(:agents) do
         [base_agent,
          agent_from(type: 'foo', id: 'bar'),
