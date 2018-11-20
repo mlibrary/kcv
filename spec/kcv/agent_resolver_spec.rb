@@ -2,60 +2,54 @@
 
 require "kcv/agent_resolver"
 require "checkpoint/agent"
+require "ostruct"
 
 RSpec.describe KCV::AgentResolver do
-  subject(:agent_resolver) do
-    described_class.new
-  end
-
-  def fake_attrs(attrs)
-    double(:attrs, all: attrs)
-  end
-
   def agent_from(type:, id:)
-    Checkpoint::Agent.from(OpenStruct.new(agent_type: type, agent_id: id))
+    Checkpoint::Agent.new(OpenStruct.new(agent_type: type, agent_id: id))
   end
 
-  describe "#resolve" do
-    let(:actor) { double(:user, identity: attrs) }
-    let(:base_agent) { Checkpoint::Agent.from(actor) }
+  let(:resolver)   { described_class.new }
+  let(:actor)      { double('user', to_agent: user_agent, identity: attrs) }
+  let(:user_agent) { agent_from(type: 'user', id: 'uid') }
 
-    context "with some attributes" do
-      subject(:agent_resolver) do
-        described_class.new
-      end
+  context "with one identity attribute" do
+    let(:attrs)      { { "attr" => "val" } }
+    let(:attr_agent) { agent_from(type: 'attr', id: 'val') }
 
-      let(:attrs) { {"foo" => "bar"} }
-      let(:agent) { agent_from(type: "foo", id: "bar") }
+    describe "expansion" do
+      subject(:agents) { resolver.expand(actor) }
 
-      it "turns the attributes into agents" do
-        resolved_agents = agent_resolver.resolve(actor)
-        expect(resolved_agents).to contain_exactly(base_agent, agent)
+      it "gives agents for the user and attribute" do
+        expect(agents).to contain_exactly(user_agent, attr_agent)
       end
     end
+  end
 
-    context "with some different attributes" do
-      let(:attrs) { {"baz" => "quux"} }
-      let(:agent) { agent_from(type: 'baz', id: 'quux') }
+  context "with two identity attributes" do
+    let(:attrs)       { { "attr" => "val", "foo" => "bar" } }
+    let(:attr_agent1) { agent_from(type: 'attr', id: 'val') }
+    let(:attr_agent2) { agent_from(type: 'foo',  id: 'bar') }
 
-      it "turns the attributes into agents" do
-        resolved_agents = agent_resolver.resolve(actor)
-        expect(resolved_agents).to contain_exactly(base_agent, agent)
+    describe "expansion" do
+      subject(:agents) { resolver.expand(actor) }
+
+      it "gives agents for the user and both attributes" do
+        expect(agents).to contain_exactly(user_agent, attr_agent1, attr_agent2)
       end
     end
+  end
 
-    context "with a multi-value attribute" do
-      let(:attrs) { {"foo" => %w[bar baz]} }
-      let(:agents) do
-        [base_agent,
-         agent_from(type: 'foo', id: 'bar'),
-         agent_from(type: 'foo', id: 'baz')]
-      end
+  context "with a multi-valued attribute" do
+    let(:attrs)       { { "attr" => %w[val other] } }
+    let(:attr_agent1) { agent_from(type: 'attr', id: 'val') }
+    let(:attr_agent2) { agent_from(type: 'attr', id: 'other') }
 
-      it "returns two agents" do
-        resolved_agents = agent_resolver.resolve(actor)
-        expect(resolved_agents.length).to eq(agents.length)
-        expect(resolved_agents).to contain_exactly(*agents)
+    describe "expansion" do
+      subject(:agents) { resolver.expand(actor) }
+
+      it "gives agents for the user and both attributes" do
+        expect(agents).to contain_exactly(user_agent, attr_agent1, attr_agent2)
       end
     end
   end

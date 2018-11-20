@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'checkpoint/agent'
-require 'ostruct'
 
 module KCV
   # Base AgentResolver to integrate Keycard and Checkpoint.
@@ -10,22 +9,20 @@ module KCV
   # which all attributes are extracted and delivered as agents, as converted
   # by the `agent_factory`.
   class AgentResolver < Checkpoint::Agent::Resolver
-    def initialize(agent_factory: Checkpoint::Agent)
-      @agent_factory = agent_factory
-    end
+    IdentityAttribute = Struct.new(:agent_type, :agent_id)
 
-    def resolve(actor)
-      super + actor.identity.map { |k, v| agents_for(k, v) }.flatten
-    end
-
-    def agents_for(attribute, values)
-      [values].flatten.map do |value|
-        agent_factory.from(OpenStruct.new(agent_type: attribute, agent_id: value))
-      end
+    def expand(actor)
+      [convert(actor)] + identity_agents(actor)
     end
 
     private
 
-    attr_reader :agent_factory
+    def identity_agents(actor)
+      actor.identity.flat_map do |attr, values|
+        [values].flatten.map do |value|
+          convert IdentityAttribute.new(attr, value)
+        end
+      end
+    end
   end
 end

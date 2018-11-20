@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 lib = File.expand_path('lib', __dir__)
@@ -26,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "checkpoint", "~> 1.0.3"
+  spec.add_dependency "checkpoint", "~> 1.1.0"
   spec.add_dependency "keycard", "~> 0.2.4"
   spec.add_dependency "vizier", "~> 0.1.0"
 
