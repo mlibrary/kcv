@@ -12,4 +12,4 @@ require "kcv/version"
 module KCV
 end
 
-require 'kcv/agent_resolver'
+require "kcv/agent_resolver"

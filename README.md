@@ -1,3 +1,8 @@
+[![Tests](https://github.com/mlibrary/kcv/actions/workflows/test.yml/badge.svg)](https://github.com/mlibrary/kcv/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/mlibrary/keycard/badge.svg?branch=main)](https://coveralls.io/github/mlibrary/kcv?branch=main)
+[![User Docs](https://img.shields.io/badge/user_docs-readthedocs-blue.svg)](https://kcv.readthedocs.io/en/latest)
+[![API Docs](https://img.shields.io/badge/API_docs-rubydoc.info-blue.svg)](https://www.rubydoc.info/gems/kcv)
+
 # KCV
 
 KCV is a glue gem for making it easy to use [Keycard](https://github.com/mlibrary/keycard),
@@ -22,6 +27,20 @@ gem 'kcv'
 And then execute:
 
     $ bundle
+
+## Compatibility
+
+KCV is intended to be compatible with all community-supported Ruby branches (i.e., minor versions), currently:
+
+ - 2.6
+ - 2.7
+ - 3.0
+ - 3.1
+
+We prefer the newest syntax and linting rules that preserve compatibility with the oldest branch in normal maintenance.
+When the security maintenance for a branch expires, Keycard's compatibility should be considered unsupported.
+
+See also, [Ruby's branch maintenance policy](https://www.ruby-lang.org/en/downloads/branches/).
 
 ## License
 

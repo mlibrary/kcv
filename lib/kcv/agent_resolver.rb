@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'checkpoint/agent'
+require "checkpoint/agent"
 
 module KCV
   # Base AgentResolver to integrate Keycard and Checkpoint.
