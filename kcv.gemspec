@@ -25,14 +25,18 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "checkpoint", "~> 1.1.0"
-  spec.add_dependency "keycard", "~> 0.3.0"
-  spec.add_dependency "vizier", "~> 0.1.2"
+  spec.required_ruby_version = ">= 3.2.0"
 
-  spec.add_development_dependency "bundler", "~> 2.3"
-  spec.add_development_dependency "simplecov", "~> 0.21"
-  spec.add_development_dependency "simplecov-lcov", "~> 0.8"
+  spec.add_dependency "checkpoint", "~> 1.2.0"
+  spec.add_dependency "keycard", "~> 0.4.0"
+  spec.add_dependency "vizier", "~> 0.2.0"
+
+  spec.add_development_dependency "bundler"
+  spec.add_development_dependency "logger"
+  spec.add_development_dependency "ostruct"
+  spec.add_development_dependency "simplecov"
+  spec.add_development_dependency "simplecov-lcov"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.11"
-  spec.add_development_dependency "standard", "~> 1.7"
+  spec.add_development_dependency "standard", "~> 1.53"
 end

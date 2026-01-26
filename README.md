@@ -32,10 +32,10 @@ And then execute:
 
 KCV is intended to be compatible with all community-supported Ruby branches (i.e., minor versions), currently:
 
- - 2.6
- - 2.7
- - 3.0
- - 3.1
+ - 3.2
+ - 3.3
+ - 3.4
+ - 4.0
 
 We prefer the newest syntax and linting rules that preserve compatibility with the oldest branch in normal maintenance.
 When the security maintenance for a branch expires, Keycard's compatibility should be considered unsupported.
